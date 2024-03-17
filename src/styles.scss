@@ -1,0 +1,30 @@
+@import "primeng/resources/themes/lara-dark-pink/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+@import 'primeflex/primeflex.scss';
+
+html, body {
+    margin: 0px;
+}
+
+.p-menubar {
+    padding-bottom: 0.5rem;
+    border-radius: 0;
+}
+
+.p-menubar-start {
+    padding: 0 1rem;
+}
+
+.page-title {
+    font-size: 1.5rem;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+// .p-panel-header {
+//     background: rgb(239,59,114);
+//     background: linear-gradient(90deg, rgba(239,59,114,1) 0%, rgba(150,59,150,1) 53%, rgba(239,73,67,1) 100%);
+//     border-color: linear-gradient(90deg, rgba(239,59,114,1) 0%, rgba(150,59,150,1) 53%, rgba(239,73,67,1) 100%);
+//     color: white;
+// }

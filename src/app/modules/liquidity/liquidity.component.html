@@ -1,0 +1,229 @@
+<div class="w-full mb-3">
+    <div class="page-title">
+        <span><i class="pi pi-fw pi-database" style="font-size: 1.3rem;"></i>&nbsp;Liquidity</span>
+    </div>
+    <p-breadcrumb class="max-w-full" [model]="breadcrumbItems" [home]="breadcrumbHome"></p-breadcrumb>
+</div>
+<div class="w-full mb-3">
+    <p-toolbar>
+        <div class="p-toolbar-group-start">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText placeholder="Search" />
+            </span>
+        </div>
+        <div class="p-toolbar-group-center"></div>
+        <div class="p-toolbar-group-end">
+            <button type="button" pButton class="p-button p-button-rounded mr-2" (click)="openLiquidityFormModal()">
+                Create Pool
+            </button>
+            <button type="button" pButton class="p-button p-button-rounded" (click)="openExistingLiquidityPoolsModal()">
+                Provide Liquidity
+            </button>
+        </div>
+    </p-toolbar>
+</div>
+
+<div *ngIf="accountLiquidityPools.length > 0">
+    <div *ngFor="let accountLiquidityPool of accountLiquidityPools" class="w-full mb-3">
+        <p-panel
+            header="{{getAssetDetail(accountLiquidityPool.assetPairs.assetX).metadata.symbol}} | {{getAssetDetail(accountLiquidityPool.assetPairs.assetY).metadata.symbol}}">
+            <div class="grid">
+                <div class="col-12 md:col-6 lg:col-6">
+                    <p-panel header="Your Liquidity">
+                        <table class="w-full">
+                            <tr>
+                                <td style="width: 90px;" class="p-3">
+                                    <img src="../../../assets/crypto/{{getAssetDetail(accountLiquidityPool.assetPairs.assetX).metadata.symbol}}.png"
+                                        class="w-full" />
+                                </td>
+                                <td>
+                                    <span
+                                        style="font-size: 15px;">{{getAssetDetail(accountLiquidityPool.assetPairs.assetX).metadata.name}}</span>
+                                    <br />
+                                    <span style="font-size: 25px;">
+                                        <b>
+                                            {{decimalPipe.transform(accountLiquidityPool.assetXBalance) || "0"}}
+                                            {{getAssetDetail(accountLiquidityPool.assetPairs.assetX).metadata.symbol}}
+                                        </b>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 90px;" class="p-3">
+                                    <img src="../../../assets/crypto/{{getAssetDetail(accountLiquidityPool.assetPairs.assetY).metadata.symbol}}.png"
+                                        class="w-full" />
+                                </td>
+                                <td>
+                                    <span
+                                        style="font-size: 15px;">{{getAssetDetail(accountLiquidityPool.assetPairs.assetY).metadata.name}}</span>
+                                    <br />
+                                    <span style="font-size: 25px;">
+                                        <b>
+                                            {{decimalPipe.transform(accountLiquidityPool.assetYBalance) || "0"}}
+                                            {{getAssetDetail(accountLiquidityPool.assetPairs.assetY).metadata.symbol}}
+                                        </b>
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </p-panel>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <p-panel header="Liquidity Token and rewards">
+                        <table class="w-full">
+                            <tr>
+                                <td style="width: 90px;" class="p-3">
+                                    <img src="../../../assets/crypto/UMI.png" class="w-full" />
+                                </td>
+                                <td>
+                                    <span style="font-size: 15px;">Humidefi Token</span>
+                                    <br />
+                                    <span style="font-size: 25px;"><b>{{decimalPipe.transform(accountLiquidityPool.lpTokenBalance)
+                                            || "0"}} UMI</b></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </p-panel>
+                    <br />
+                    <button type="button" pButton class="p-button p-button-success p-button-rounded w-full">
+                        <div class="w-full text-center">
+                            Redeem
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <ng-template pTemplate="icons">
+                <b>Transaction Index:</b> {{accountLiquidityPool.index}}
+            </ng-template>
+        </p-panel>
+    </div>
+</div>
+
+<p-dialog header="Provide Liquidity" [(visible)]="showLiquidityFormModal" [modal]="true" [style]="{ width: '50vw' }"
+    [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <div class="col-12 md:col-12 lg:col-12">
+            <p-panel header="Token A">
+                <p-inputGroup>
+                    <p-inputNumber [styleClass]="'add-liquidity-input-field'" [minFractionDigits]="0"
+                        [maxFractionDigits]="18" [placeholder]="'0.00'"
+                        [(ngModel)]="liquidityData.assetXBalance"></p-inputNumber>
+                    <button type="button" pButton class="p-button-text add-liquidity-crypto-button"
+                        label="{{selectedAssetX != undefined ? selectedAssetX.asset.metadata.symbol : 'Select'}}"
+                        (click)="openSelectAssetModal('assetX')">
+                        <img *ngIf="selectedAssetX != undefined"
+                            src="./../../../assets/crypto/{{selectedAssetX.asset.metadata.symbol}}.png"
+                            class="add-liquidity-crypto-icon" />
+                    </button>
+                </p-inputGroup>
+                <ng-template pTemplate="footer">
+                    <span>
+                        <b>Balance:</b>
+                        {{decimalPipe.transform(selectedAssetX != undefined ? selectedAssetX.balance : 0,
+                        "1.5-5") || "0"}}
+                        {{selectedAssetX != undefined ? selectedAssetX.asset.metadata.symbol : ''}}
+                    </span>
+                </ng-template>
+            </p-panel>
+        </div>
+        <div class="col-12 md:col-12 lg:col-12">
+            <p-panel header="Token B">
+                <p-inputGroup>
+                    <p-inputNumber [styleClass]="'add-liquidity-input-field'" [minFractionDigits]="0"
+                        [maxFractionDigits]="18" [placeholder]="'0.00'"
+                        [(ngModel)]="liquidityData.assetYBalance"></p-inputNumber>
+                    <button type="button" pButton class="p-button-text add-liquidity-crypto-button"
+                        label="{{selectedAssetY != undefined ? selectedAssetY.asset.metadata.symbol : 'Select'}}"
+                        (click)="openSelectAssetModal('assetY')">
+                        <img *ngIf="selectedAssetY != undefined"
+                            src="./../../../assets/crypto/{{selectedAssetY.asset.metadata.symbol}}.png"
+                            class="add-liquidity-crypto-icon" />
+                    </button>
+                </p-inputGroup>
+                <ng-template pTemplate="footer">
+                    <span>
+                        <b>Balance:</b>
+                        {{decimalPipe.transform(selectedAssetY != undefined ? selectedAssetY.balance : 0,
+                        "1.5-5") || "0"}}
+                        {{selectedAssetY != undefined ? selectedAssetY.asset.metadata.symbol : ''}}
+                    </span>
+                </ng-template>
+            </p-panel>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton class="p-button p-button-rounded w-full" [disabled]="isProcessing"
+            (click)="createLiquidityPoolExtrinsic()">
+            <div class="w-full text-center">
+                Create
+            </div>
+        </button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Select Asset" [(visible)]="showAssetsModal" [modal]="true" [style]="{ width: '40vw' }"
+    [draggable]="false" [resizable]="false">
+    <app-list-assets (getSelectedAsset)="getSelectedAsset($event)"></app-list-assets>
+</p-dialog>
+
+<p-dialog header="Select Existing Pool" [(visible)]="showExistingLiquidityPoolsModal" [modal]="true"
+    [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+    <div class="mb-3">
+        <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input pInputText placeholder="Search" />
+        </span>
+    </div>
+    <p-table [value]="existingLiquidityPools" selectionMode="single" [(selection)]="selectedExistingLiquidityPool"
+        (onRowSelect)="openLiquidityFormModalFromSelectedLiquidityPool(selectedExistingLiquidityPool)"
+        dataKey="lpToken">
+        <ng-template pTemplate="body" let-liquiditypool>
+            <tr [pSelectableRow]="liquiditypool">
+                <td width="70" style="text-align: center;">
+                    <img src="./../../../assets/crypto/{{getAssetDetail(liquiditypool.assetPairs.assetX).metadata.symbol}}.png"
+                        class="w-full" />
+                </td>
+                <td width="200">
+                    <b>{{getAssetDetail(liquiditypool.assetPairs.assetX).metadata.symbol}}</b>
+                    <br />
+                    {{getAssetDetail(liquiditypool.assetPairs.assetX).metadata.name}}
+                </td>
+                <td width="70" style="text-align: center;">
+                    <img src="./../../../assets/crypto/{{getAssetDetail(liquiditypool.assetPairs.assetY).metadata.symbol}}.png"
+                        class="w-full" />
+                </td>
+                <td width="200">
+                    <b>{{getAssetDetail(liquiditypool.assetPairs.assetY).metadata.symbol}}</b>
+                    <br />
+                    {{getAssetDetail(liquiditypool.assetPairs.assetY).metadata.name}}
+                </td>
+                <td></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+
+<p-dialog [(visible)]="showProcessModal" [style]="{width: '60vw'}" [modal]="true" [closable]="false">
+    <div class="w-full text-center">
+        <div class="w-full" *ngIf="executionExtrinsicsStatus == undefined">
+            <p-progressSpinner></p-progressSpinner>
+            <div class="w-full mt-3" style="white-space: pre-wrap;">
+                Processing
+            </div>
+        </div>
+        <div *ngIf="executionExtrinsicsStatus != undefined">
+            <div class="w-full mb-2" *ngIf="executionExtrinsicsStatus.isError == false">
+                <i class="pi pi-check" style="font-size: 5rem; font-weight: bold; color: rgb(119, 255, 119);"></i>
+            </div>
+            <div class="w-full mb-2" *ngIf="executionExtrinsicsStatus.isError == true">
+                <i class="pi pi-times" style="font-size: 5rem; font-weight: bold; color: rgb(202, 74, 74);"></i>
+            </div>
+            <div class="w-full mb-3" style="white-space: pre-wrap;">
+                {{executionExtrinsicsStatus.message}}
+            </div>
+            <button pButton type="button" label="Okay" class="p-button"
+                (click)="showProcessModal = false; executionExtrinsicsStatus = undefined;"></button>
+        </div>
+    </div>
+</p-dialog>

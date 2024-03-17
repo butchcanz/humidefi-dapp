@@ -1,0 +1,14 @@
+<p-table [value]="listAssets" selectionMode="single" [(selection)]="selectedAsset" dataKey="id" (onRowSelect)="listAssetsOnRowSelect($event)">
+    <ng-template pTemplate="body" let-asset>
+        <tr [pSelectableRow]="asset">
+            <td width="50" style="text-align: center;">
+                <img src="./../../../../assets/crypto/{{asset.metadata.symbol}}.png" height="50" />
+            </td>
+            <td>
+                {{asset.metadata.name}}
+                <br />
+                <b>{{asset.metadata.symbol}}</b>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
