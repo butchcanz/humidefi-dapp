@@ -101,17 +101,17 @@
     </div>
 </div>
 
-<p-dialog header="Provide Liquidity" [(visible)]="showLiquidityFormModal" [modal]="true" [style]="{ width: '50vw' }"
+<p-dialog header="Provide Liquidity" [(visible)]="showLiquidityFormModal" [modal]="true" [style]="{ width: '40vw' }"
     [draggable]="false" [resizable]="false">
     <div class="w-full mb-3">
         <p-panel header="Asset X">
             <div class="grid">
-                <div class="col-12 md:col-8 lg:col-8">
+                <div class="col-12 md:col-8 lg:col-7">
                     <p-inputNumber [styleClass]="'w-full liquidity-form-input-field'" class="w-full"
                         [minFractionDigits]="0" [maxFractionDigits]="18" [placeholder]="'0.00'"
                         [(ngModel)]="liquidityData.assetXBalance"></p-inputNumber>
                 </div>
-                <div class="col-12 md:col-4 lg:col-4">
+                <div class="col-12 md:col-4 lg:col-5">
                     <div class="w-full">
                         <p-dropdown [options]="assets" [(ngModel)]="selectedAssetX" [filter]="true"
                             filterBy="metadata.symbol" [styleClass]="'w-full text-4xl'" placeholder="Select Token"
@@ -146,12 +146,12 @@
     <div class="w-full">
         <p-panel header="Asset Y">
             <div class="grid">
-                <div class="col-12 md:col-8 lg:col-8">
+                <div class="col-12 md:col-8 lg:col-7">
                     <p-inputNumber [styleClass]="'w-full liquidity-form-input-field'" class="w-full"
                         [minFractionDigits]="0" [maxFractionDigits]="18" [placeholder]="'0.00'"
                         [(ngModel)]="liquidityData.assetYBalance"></p-inputNumber>
                 </div>
-                <div class="col-12 md:col-4 lg:col-4">
+                <div class="col-12 md:col-4 lg:col-5">
                     <div class="w-full">
                         <p-dropdown [options]="assets" [(ngModel)]="selectedAssetY" [filter]="true"
                             filterBy="metadata.symbol" [styleClass]="'w-full text-4xl'" placeholder="Select Token"

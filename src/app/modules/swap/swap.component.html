@@ -9,34 +9,61 @@
         <div class="col-12 md:col-6 lg:col-7">
             <div class="w-full mb-3">
                 <p-panel header="You Pay">
-                    <p-inputGroup>
-                        <p-inputNumber [styleClass]="'swap-input-field'" [minFractionDigits]="0"
-                            [maxFractionDigits]="18" [placeholder]="'0.00'"></p-inputNumber>
-                        <button type="button" pButton class="p-button-text swap-crypto-button" label="BTC">
-                            <img src="./../../../assets/crypto/bitcoin.webp" class="swap-crypto-icon" />
-                        </button>
-                    </p-inputGroup>
-                    <div class="w-full mt-3">
-                        <button type="button" pButton class="p-button p-button-secondary p-button-sm mr-1">
-                            Max (100%)
-                        </button>
-                        <button type="button" pButton class="p-button p-button-secondary p-button-sm mr-1">
-                            75%
-                        </button>
-                        <button type="button" pButton class="p-button p-button-secondary p-button-sm mr-1">
-                            50%
-                        </button>
-                        <button type="button" pButton class="p-button p-button-secondary p-button-sm">
-                            25%
-                        </button>
+                    <div class="grid">
+                        <div class="col-12 md:col-8 lg:col-7">
+                            <p-inputNumber [styleClass]="'w-full swap-form-input-field'" class="w-full"
+                                [minFractionDigits]="0" [maxFractionDigits]="18" [placeholder]="'0.00'"></p-inputNumber>
+                            <div class="w-full mt-3">
+                                <button type="button" pButton class="p-button p-button-secondary p-button-sm mr-1">
+                                    Max (100%)
+                                </button>
+                                <button type="button" pButton class="p-button p-button-secondary p-button-sm mr-1">
+                                    75%
+                                </button>
+                                <button type="button" pButton class="p-button p-button-secondary p-button-sm mr-1">
+                                    50%
+                                </button>
+                                <button type="button" pButton class="p-button p-button-secondary p-button-sm">
+                                    25%
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-12 md:col-4 lg:col-5">
+                            <div class="w-full">
+                                <p-dropdown [options]="assets" [(ngModel)]="selectedAssetX" [filter]="true"
+                                    filterBy="metadata.symbol" [styleClass]="'w-full text-4xl'"
+                                    placeholder="Select Token" (onChange)="selectAssetOnChange($event)">
+                                    <ng-template pTemplate="selectedItem">
+                                        <div class="flex align-items-center gap-2" *ngIf="selectedAssetX != undefined">
+                                            <img src="./../../../assets/crypto/{{selectedAssetX.metadata.symbol}}.png"
+                                                height="30" />
+                                            <div class="text-4xl">
+                                                {{ selectedAssetX.metadata.symbol }}
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template let-asset pTemplate="item">
+                                        <div class="flex align-items-center gap-2">
+                                            <img src="./../../../assets/crypto/{{asset.metadata.symbol}}.png"
+                                                style="width: 30px" />
+                                            <div><b>{{ asset.metadata.symbol }}</b> ({{ asset.metadata.name }})</div>
+                                        </div>
+                                    </ng-template>
+                                </p-dropdown>
+                            </div>
+                        </div>
                     </div>
                     <ng-template pTemplate="footer">
-                        <span><b>Balance:</b> 1,000.00 (BTC)</span>
+                        <b>Balance:</b>
+                        {{decimalPipe.transform(assetXBalances != undefined ? assetXBalances.balance : 0, "1.5-5") ||
+                        "0"}}
+                        {{assetXBalances != undefined ? assetXBalances.asset.metadata.symbol : ''}}
                     </ng-template>
                 </p-panel>
             </div>
             <div class="w-full mb-3 text-center">
-                <button pButton class="p-button-success p-button-outlined p-button-rounded w-full">
+                <button pButton class="p-button-success p-button-outlined p-button-rounded w-full"
+                    (click)="switchToken()">
                     <div class="w-full text-center">
                         <i class="pi pi-fw pi-sort-alt"></i> Switch
                     </div>
@@ -44,13 +71,36 @@
             </div>
             <div class="w-full mb-3">
                 <p-panel header="You Receive">
-                    <p-inputGroup>
-                        <p-inputNumber [styleClass]="'swap-input-field'" [minFractionDigits]="0"
-                            [maxFractionDigits]="18" [placeholder]="'0.00'"></p-inputNumber>
-                        <button type="button" pButton class="p-button-text swap-crypto-button" label="USDT">
-                            <img src="./../../../assets/crypto/ethereum.png" class="swap-crypto-icon" />
-                        </button>
-                    </p-inputGroup>
+                    <div class="grid">
+                        <div class="col-12 md:col-8 lg:col-7">
+                            <p-inputNumber [styleClass]="'w-full swap-form-input-field'" class="w-full"
+                                [minFractionDigits]="0" [maxFractionDigits]="18" [placeholder]="'0.00'"></p-inputNumber>
+                        </div>
+                        <div class="col-12 md:col-4 lg:col-5">
+                            <div class="w-full">
+                                <p-dropdown [options]="assets" [(ngModel)]="selectedAssetY" [filter]="true"
+                                    filterBy="metadata.symbol" [styleClass]="'w-full text-4xl'"
+                                    placeholder="Select Token" (onChange)="selectAssetOnChange($event)">
+                                    <ng-template pTemplate="selectedItem">
+                                        <div class="flex align-items-center gap-2" *ngIf="selectedAssetY != undefined">
+                                            <img src="./../../../assets/crypto/{{selectedAssetY.metadata.symbol}}.png"
+                                                height="30" />
+                                            <div class="text-4xl">
+                                                {{ selectedAssetY.metadata.symbol }}
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template let-asset pTemplate="item">
+                                        <div class="flex align-items-center gap-2">
+                                            <img src="./../../../assets/crypto/{{asset.metadata.symbol}}.png"
+                                                style="width: 30px" />
+                                            <div><b>{{ asset.metadata.symbol }}</b> ({{ asset.metadata.name }})</div>
+                                        </div>
+                                    </ng-template>
+                                </p-dropdown>
+                            </div>
+                        </div>
+                    </div>
                     <div class="w-full mt-3">
                         <p-accordion>
                             <p-accordionTab header="Calculations">
@@ -58,14 +108,18 @@
                             </p-accordionTab>
                         </p-accordion>
                     </div>
+                    <ng-template pTemplate="footer">
+                        <b>Balance:</b>
+                        {{decimalPipe.transform(assetYBalances != undefined ? assetYBalances.balance : 0, "1.5-5") ||
+                        "0"}}
+                        {{assetYBalances != undefined ? assetYBalances.asset.metadata.symbol : ''}}
+                    </ng-template>
                 </p-panel>
             </div>
             <div class="w-full mb-3">
                 <p-button label="Swap" [styleClass]="'w-full'" [rounded]="true" [size]="'large'"></p-button>
             </div>
         </div>
-        <div class="col-12 md:col-6 lg:col-5">
-
-        </div>
+        <div class="col-12 md:col-6 lg:col-5"></div>
     </div>
 </div>

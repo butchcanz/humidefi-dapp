@@ -1,16 +1,4 @@
-.swap-crypto-button {
-    border-radius: 6px;
-    width: 130px;
-    max-width: 200px;
-    font-size: 20px;
-}
-
-.swap-crypto-icon {
-    height: 35px;
-    margin-right: 10px;
-}
-
-::ng-deep .swap-input-field input {
-    height: 70px;
-    font-size: 35px;
+::ng-deep .swap-form-input-field input {
+    font-size: 2rem;
+    width: 100%;
 }
