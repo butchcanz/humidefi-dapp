@@ -1,8 +1,4 @@
 import {
-  Tooltip,
-  TooltipModule
-} from "./chunk-IBZAP5DU.js";
-import {
   Router,
   RouterLink,
   RouterLinkActive,
@@ -12,9 +8,13 @@ import {
   ChevronRightIcon
 } from "./chunk-PY2HOPAH.js";
 import {
+  Tooltip,
+  TooltipModule
+} from "./chunk-IBZAP5DU.js";
+import "./chunk-EK2YCWCT.js";
+import {
   BaseIcon
 } from "./chunk-EL2IZZMK.js";
-import "./chunk-EK2YCWCT.js";
 import {
   PrimeTemplate,
   SharedModule,

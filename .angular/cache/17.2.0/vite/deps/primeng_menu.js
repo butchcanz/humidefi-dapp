@@ -1,8 +1,4 @@
 import {
-  Tooltip,
-  TooltipModule
-} from "./chunk-IBZAP5DU.js";
-import {
   RouterLink,
   RouterLinkActive,
   RouterModule
@@ -11,6 +7,16 @@ import {
   Ripple,
   RippleModule
 } from "./chunk-2Y5ES4M2.js";
+import {
+  animate,
+  style,
+  transition,
+  trigger
+} from "./chunk-6LSTBPNC.js";
+import {
+  Tooltip,
+  TooltipModule
+} from "./chunk-IBZAP5DU.js";
 import {
   ConnectedOverlayScrollHandler,
   DomHandler
@@ -22,12 +28,6 @@ import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-JUETL6ZC.js";
-import {
-  animate,
-  style,
-  transition,
-  trigger
-} from "./chunk-6LSTBPNC.js";
 import {
   DomSanitizer
 } from "./chunk-5KHAIC5S.js";

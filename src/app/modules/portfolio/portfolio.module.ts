@@ -7,8 +7,10 @@ import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
 import { ChipModule } from 'primeng/chip';
 import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
 
 import { SafePipe } from './../../pipes/safe.pipe';
+import { WalletModule } from '../wallet/wallet.module';
 
 import { PortfolioRoutingModule } from './portfolio-routing.module';
 import { PortfolioComponent } from './portfolio.component';
@@ -21,6 +23,7 @@ import { PortfolioComponent } from './portfolio.component';
   imports: [
     CommonModule,
     FormsModule,
+    WalletModule,
     ReactiveFormsModule,
     PortfolioRoutingModule,
     BreadcrumbModule,
@@ -28,6 +31,7 @@ import { PortfolioComponent } from './portfolio.component';
     PanelModule,
     ChipModule,
     TableModule,
+    DialogModule
   ],
   providers: [
     DecimalPipe

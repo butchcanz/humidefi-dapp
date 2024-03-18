@@ -6,22 +6,22 @@ import {
   RippleModule
 } from "./chunk-2Y5ES4M2.js";
 import {
-  BaseIcon
-} from "./chunk-EL2IZZMK.js";
-import "./chunk-EK2YCWCT.js";
-import {
-  Footer,
-  PrimeTemplate,
-  SharedModule,
-  UniqueComponentId
-} from "./chunk-JUETL6ZC.js";
-import {
   animate,
   state,
   style,
   transition,
   trigger
 } from "./chunk-6LSTBPNC.js";
+import "./chunk-EK2YCWCT.js";
+import {
+  BaseIcon
+} from "./chunk-EL2IZZMK.js";
+import {
+  Footer,
+  PrimeTemplate,
+  SharedModule,
+  UniqueComponentId
+} from "./chunk-JUETL6ZC.js";
 import {
   CommonModule,
   NgClass,

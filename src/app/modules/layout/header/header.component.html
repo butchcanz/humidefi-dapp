@@ -10,14 +10,13 @@
         <p-menu #menu [model]="networkMenuItems" [popup]="true"></p-menu>
         <p-button icon="pi pi-globe" [rounded]="true" [text]="true" (click)="menu.toggle($event)"></p-button>
         &nbsp;
-        <p-button icon="pi pi-wallet" label="Connect" [rounded]="true" (click)="showDialog()"></p-button>
+        <p-button icon="pi pi-wallet" label="{{walletName}}" [rounded]="true" (click)="showDialog()"></p-button>
     </ng-template>
 </p-menubar>
 <br />
 <br />
 <br />
-
-<p-dialog header="Connect Wallet" [(visible)]="visible" [modal]="true" [style]="{ width: '35vw' }" [draggable]="false"
+<p-dialog header="Your Wallet" [(visible)]="visible" [modal]="true" [style]="{ width: '35vw' }" [draggable]="false"
     [resizable]="false">
     <app-accounts></app-accounts>
 </p-dialog>

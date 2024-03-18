@@ -1,7 +1,7 @@
 .add-liquidity-crypto-button {
     border-radius: 6px;
     width: 130px;
-    max-width: 200px;
+    // max-width: 200px;
     font-size: 20px;
 }
 
@@ -10,7 +10,7 @@
     margin-right: 10px;
 }
 
-::ng-deep .add-liquidity-input-field input {
-    height: 70px;
-    font-size: 35px;
+::ng-deep .liquidity-form-input-field input {
+    // height: 70px;
+    font-size: 2rem;
 }

@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './polkadot-identicon.component.scss'
 })
 export class PolkadotIdenticonComponent {
-
+  address = localStorage.getItem("wallet-address") || "";
 }

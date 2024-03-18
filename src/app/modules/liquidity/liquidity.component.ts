@@ -26,15 +26,17 @@ export class LiquidityComponent {
   keypair = localStorage.getItem("wallet-keypair") || "";
 
   showLiquidityFormModal: boolean = false;
-  showExistingLiquidityPoolsModal: boolean = false;
-
   liquidityData: LiquidityDataModel = new LiquidityDataModel();
 
-  showAssetsModal: boolean = false;
-  selectedAssetX: SelectedAssetModel | undefined;
-  selectedAssetY: SelectedAssetModel | undefined;
-  selectedAssetType: string = "";
+  assets: AssetModel[] = [];
+  selectedAssetX: AssetModel | undefined;
+  selectedAssetY: AssetModel | undefined;
 
+  assetXBalances: SelectedAssetModel | undefined;
+  assetYBalances: SelectedAssetModel | undefined;
+  assetType: string = "";
+
+  showExistingLiquidityPoolsModal: boolean = false;
   existingLiquidityPools: LiquidityPoolModel[] = [];
   selectedExistingLiquidityPool: LiquidityPoolModel | undefined;
   isForNewLiquidityPool: boolean = true;
@@ -43,17 +45,78 @@ export class LiquidityComponent {
   isProcessing: boolean = false;
 
   accountLiquidityPools: AccountLiquidityPoolModel[] = [];
-  assets: AssetModel[] = [];
-
   executionExtrinsicsStatus: ExecuteExtrinsicsStatusModel | undefined;
 
   public openLiquidityFormModal(): void {
     this.showLiquidityFormModal = true;
-    this.selectedAssetX = undefined;
-    this.selectedAssetY = undefined;
-    this.selectedAssetType = "";
-
     this.isForNewLiquidityPool = true;
+
+    this.liquidityData = new LiquidityDataModel();
+
+    if (this.selectedAssetX != undefined && this.selectedAssetY != undefined) {
+      this.getAssetsXYBalancesByAccount(
+        this.selectedAssetX?.metadata.asset_id,
+        this.selectedAssetY?.metadata.asset_id,
+      );
+    }
+  }
+
+  public selectAssetOnChange(event: any): void {
+    if (this.selectedAssetX != undefined && this.selectedAssetY != undefined) {
+      this.getAssetsXYBalancesByAccount(
+        this.selectedAssetX?.metadata.asset_id,
+        this.selectedAssetY?.metadata.asset_id,
+      );
+    }
+  }
+
+  public getAssets(): void {
+    this.assetsService.getAssets().subscribe(
+      result => {
+        let data: any = result;
+        if (data.length > 0) {
+          this.assets = data;
+
+          this.selectedAssetX = this.assets[0];
+          this.selectedAssetY = this.assets[1];
+        }
+
+        this.getAccountLiquidityPools();
+      }
+    )
+  }
+
+  public getAssetDetail(asset_id: number): AssetModel {
+    let asset: AssetModel = new AssetModel();
+    if (this.assets.length > 0) {
+      asset = this.assets.filter(d => d.metadata.asset_id == asset_id)[0];
+    }
+
+    return asset;
+  }
+
+  public getAssetsXYBalancesByAccount(asset_x: number, asset_y: number): void {
+    this.assetsService.getAssetBalanceByAccount(asset_x, this.keypair).subscribe(
+      balance => {
+        this.assetXBalances = {
+          asset: this.getAssetDetail(asset_x),
+          balance: balance
+        }
+        this.liquidityData.assetX = this.assetXBalances.asset;
+        this.selectedAssetX = this.assetXBalances.asset;
+      }
+    );
+
+    this.assetsService.getAssetBalanceByAccount(asset_y, this.keypair).subscribe(
+      balance => {
+        this.assetYBalances = {
+          asset: this.getAssetDetail(asset_y),
+          balance: balance
+        }
+        this.liquidityData.assetY = this.assetYBalances.asset;
+        this.selectedAssetY = this.assetYBalances.asset;
+      }
+    );
   }
 
   public openExistingLiquidityPoolsModal(): void {
@@ -61,60 +124,65 @@ export class LiquidityComponent {
     this.getLiquidityPools();
   }
 
+  public getLiquidityPools(): void {
+    this.existingLiquidityPools = [];
+    this.dexService.getLiquidityPools().subscribe(
+      result => {
+        let data: any = result;
+        if (data.length > 0) {
+          for (let i = 0; i < data.length; i++) {
+            this.existingLiquidityPools.push({
+              assetPairs: data[i].assetPairs,
+              assetXBalance: data[i].assetXBalance,
+              assetYBalance: data[i].assetYBalance,
+              lpToken: data[i].lpToken
+            });
+          }
+        }
+      }
+    )
+  }
+
   public openLiquidityFormModalFromSelectedLiquidityPool(selectedExistingLiquidityPool: LiquidityPoolModel | undefined): void {
     this.showLiquidityFormModal = true;
     this.isForNewLiquidityPool = false;
 
-    if (selectedExistingLiquidityPool != undefined) {
-      this.assetsService.getAssetBalanceByAccount(selectedExistingLiquidityPool.assetPairs.assetX, this.keypair).subscribe(
-        balance => {
-          this.selectedAssetX = {
-            asset: this.getAssetDetail(selectedExistingLiquidityPool.assetPairs.assetX),
-            balance: balance
-          }
-          this.liquidityData.assetX = this.selectedAssetX.asset;
-        }
-      );
+    this.liquidityData = new LiquidityDataModel();
 
-      this.assetsService.getAssetBalanceByAccount(selectedExistingLiquidityPool.assetPairs.assetY, this.keypair).subscribe(
-        balance => {
-          this.selectedAssetY = {
-            asset: this.getAssetDetail(selectedExistingLiquidityPool.assetPairs.assetY),
-            balance: balance
-          }
-          this.liquidityData.assetY = this.selectedAssetY.asset;
-        }
+    if (selectedExistingLiquidityPool != undefined) {
+      this.getAssetsXYBalancesByAccount(
+        selectedExistingLiquidityPool.assetPairs.assetX,
+        selectedExistingLiquidityPool.assetPairs.assetY
       );
     }
   }
 
-  public getSelectedAsset(data: AssetModel): void {
-    this.assetsService.getAssetBalanceByAccount(data.metadata.asset_id, this.keypair).subscribe(
-      balance => {
-        if (this.selectedAssetType == "assetX") {
-          this.selectedAssetX = {
-            asset: data,
-            balance: balance
+  public getAccountLiquidityPools(): void {
+    this.accountLiquidityPools = [];
+    this.dexService.getAccountLiquidityPools().subscribe(
+      result => {
+        let data: any = result;
+        if (data.length > 0) {
+          for (let i = 0; i < data.length; i++) {
+            this.accountLiquidityPools.push({
+              index: data[i].index,
+              accountId: data[i].accountId,
+              assetPairs: data[i].assetPairs,
+              assetXBalance: data[i].assetXBalance,
+              assetYBalance: data[i].assetYBalance,
+              lpToken: data[i].lpToken,
+              lpTokenBalance: data[i].lpTokenBalance,
+              priceRatio: data[i].priceRatio
+            });
           }
-          this.liquidityData.assetX = this.selectedAssetX.asset;
         }
 
-        if (this.selectedAssetType == "assetY") {
-          this.selectedAssetY = {
-            asset: data,
-            balance: balance
-          }
-          this.liquidityData.assetY = this.selectedAssetY.asset;
-        }
-
-        this.showAssetsModal = false;
+        this.accountLiquidityPools.sort((a, b) => (a.index < b.index ? -1 : 1));
       }
-    );
+    )
   }
 
   public createLiquidityPoolExtrinsic(): void {
-    this.showProcessModal = true;
-
     if (this.isForNewLiquidityPool) {
       this.dexService.createLiquidityPoolExtrinsic(
         this.liquidityData.assetX.metadata.asset_id,
@@ -149,6 +217,8 @@ export class LiquidityComponent {
   public signAndSendExtrinsics(data: any): void {
     this.dexService.signExtrinsics(data).then(
       (signedExtrinsics: any) => {
+        this.showProcessModal = true;
+    
         this.dexService.executeExtrinsics(signedExtrinsics).subscribe(
           results => {
             this.executionExtrinsicsStatus = {
@@ -166,78 +236,6 @@ export class LiquidityComponent {
     );
   }
 
-  public openSelectAssetModal(selectedToken: string): void {
-    if (this.isForNewLiquidityPool == true) {
-      this.showAssetsModal = true;
-      this.selectedAssetType = selectedToken;
-    }
-  }
-
-  public getAssets(): void {
-    this.assetsService.getAssets().subscribe(
-      result => {
-        let data: any = result;
-        if (data.length > 0) {
-          this.assets = data;
-        }
-      }
-    )
-  }
-
-  public getAssetDetail(asset_id: number): AssetModel {
-    let asset: AssetModel = new AssetModel();
-    if (this.assets.length > 0) {
-      asset = this.assets.filter(d => d.metadata.asset_id == asset_id)[0];
-    }
-
-    return asset;
-  }
-
-  public getAccountLiquidityPools(): void {
-    this.accountLiquidityPools = [];
-    this.dexService.getAccountLiquidityPools().subscribe(
-      result => {
-        let data: any = result;
-        if (data.length > 0) {
-          for (let i = 0; i < data.length; i++) {
-            this.accountLiquidityPools.push({
-              index: data[i].index,
-              accountId: data[i].accountId,
-              assetPairs: data[i].assetPairs,
-              assetXBalance: data[i].assetXBalance,
-              assetYBalance: data[i].assetYBalance,
-              lpToken: data[i].lpToken,
-              lpTokenBalance: data[i].lpTokenBalance,
-              priceRatio: data[i].priceRatio
-            });
-          }
-        }
-
-        this.accountLiquidityPools.sort((a, b) => (a.index < b.index ? -1 : 1));
-        this.getAssets();
-      }
-    )
-  }
-
-  public getLiquidityPools(): void {
-    this.existingLiquidityPools = [];
-    this.dexService.getLiquidityPools().subscribe(
-      result => {
-        let data: any = result;
-        if (data.length > 0) {
-          for (let i = 0; i < data.length; i++) {
-            this.existingLiquidityPools.push({
-              assetPairs: data[i].assetPairs,
-              assetXBalance: data[i].assetXBalance,
-              assetYBalance: data[i].assetYBalance,
-              lpToken: data[i].lpToken
-            });
-          }
-        }
-      }
-    )
-  }
-
   ngOnInit() {
     this.breadcrumbHome = { icon: 'pi pi-home', routerLink: '/app/dashboard' };
     this.breadcrumbItems = [
@@ -245,6 +243,6 @@ export class LiquidityComponent {
       { label: 'Liquidity' },
     ];
 
-    this.getAccountLiquidityPools();
+    this.getAssets();
   }
 }

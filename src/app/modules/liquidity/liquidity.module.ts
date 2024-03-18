@@ -12,6 +12,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { DropdownModule } from 'primeng/dropdown';
 import { PanelModule } from 'primeng/panel';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -40,6 +41,7 @@ import { LiquidityComponent } from './liquidity.component';
     IconFieldModule,
     InputIconModule,
     InputNumberModule,
+    DropdownModule,
     PanelModule,
     CardModule,
     ButtonModule,

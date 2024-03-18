@@ -19,7 +19,11 @@ export class PortfolioComponent {
     private assetsService: AssetsService
   ) { }
 
+  walletName = localStorage.getItem("wallet-meta-name") || "";
+  address = localStorage.getItem("wallet-address") || "";
   keypair = localStorage.getItem("wallet-keypair") || "";
+
+  showChangeWalletModal: boolean = false;
 
   iframeSrc = "";
   userAssets: UserAssetModel[] = [];
@@ -48,6 +52,10 @@ export class PortfolioComponent {
         });
       }
     );
+  }
+
+  public changeWallet(): void {
+    this.showChangeWalletModal = true;
   }
 
   ngOnInit() {

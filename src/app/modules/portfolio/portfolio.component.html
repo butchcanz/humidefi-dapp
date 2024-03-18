@@ -40,14 +40,18 @@
                         </td>
                         <td class="pl-3">
                             <div class="mb-1">
-                                <span style="font-size: 30px;"><b>Noah Oliver</b></span>
+                                <span style="font-size: 30px;"><b>{{walletName}}</b></span>
                             </div>
-                            <span style="font-size: 15px;">5D2FW...8Btb8</span>
+                            <span style="font-size: 15px;">
+                                {{address.substring(0, 5)}}.....{{address.substring(address.length, address.length -
+                                5)}}
+                            </span>
                         </td>
                     </tr>
                 </table>
                 <ng-template pTemplate="footer">
-                    <button type="button" pButton class="p-button p-button-rounded p-button-success p-button-sm">
+                    <button type="button" pButton class="p-button p-button-rounded p-button-success p-button-sm"
+                        (click)="changeWallet()">
                         <i class="pi pi-fw pi-file-edit"></i> Change
                     </button>
                     &nbsp;
@@ -79,7 +83,8 @@
                                         style="height: 50px;" />
                                 </td>
                                 <td style="width: 200px;">
-                                    <b><span style="font-size: 20px;">{{ userasset.asset_symbol }}</span></b> | {{ userasset.asset_name }}
+                                    <b><span style="font-size: 20px;">{{ userasset.asset_symbol }}</span></b> | {{
+                                    userasset.asset_name }}
                                 </td>
                                 <td>
                                     <span style="font-size: 20px;">
@@ -94,5 +99,8 @@
         </div>
     </div>
 </div>
-<div class="w-full mb-3">
-</div>
+
+<p-dialog header="Your Wallet" [(visible)]="showChangeWalletModal" [modal]="true" [style]="{ width: '35vw' }"
+    [draggable]="false" [resizable]="false">
+    <app-accounts></app-accounts>
+</p-dialog>
