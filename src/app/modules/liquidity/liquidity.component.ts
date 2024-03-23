@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { AssetModel, SelectedAssetModel } from '../../models/assets.model';
 import { AssetsService } from '../../services/assets/assets.service';
 import { DecimalPipe } from '@angular/common';
@@ -11,7 +12,8 @@ import { ExecuteExtrinsicsStatusModel } from '../../models/execution-extrinsics-
 @Component({
   selector: 'app-liquidity',
   templateUrl: './liquidity.component.html',
-  styleUrl: './liquidity.component.scss'
+  styleUrl: './liquidity.component.scss',
+  providers: [MessageService]
 })
 export class LiquidityComponent {
   breadcrumbHome: MenuItem | undefined;
@@ -19,6 +21,7 @@ export class LiquidityComponent {
 
   constructor(
     public decimalPipe: DecimalPipe,
+    private messageService: MessageService,
     private assetsService: AssetsService,
     private dexService: DexService
   ) { }
@@ -82,6 +85,9 @@ export class LiquidityComponent {
         }
 
         this.getAccountLiquidityPools();
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
       }
     )
   }
@@ -97,24 +103,32 @@ export class LiquidityComponent {
 
   public getAssetsXYBalancesByAccount(asset_x: number, asset_y: number): void {
     this.assetsService.getAssetBalanceByAccount(asset_x, this.keypair).subscribe(
-      balance => {
+      result => {
+        let data: any = result;
         this.assetXBalances = {
           asset: this.getAssetDetail(asset_x),
-          balance: balance
+          balance: data
         }
         this.liquidityData.assetX = this.assetXBalances.asset;
         this.selectedAssetX = this.assetXBalances.asset;
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
       }
     );
 
     this.assetsService.getAssetBalanceByAccount(asset_y, this.keypair).subscribe(
-      balance => {
+      result => {
+        let data: any = result;
         this.assetYBalances = {
           asset: this.getAssetDetail(asset_y),
-          balance: balance
+          balance: data
         }
         this.liquidityData.assetY = this.assetYBalances.asset;
         this.selectedAssetY = this.assetYBalances.asset;
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
       }
     );
   }
@@ -139,6 +153,9 @@ export class LiquidityComponent {
             });
           }
         }
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
       }
     )
   }
@@ -178,6 +195,9 @@ export class LiquidityComponent {
         }
 
         this.accountLiquidityPools.sort((a, b) => (a.index < b.index ? -1 : 1));
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
       }
     )
   }
@@ -193,6 +213,9 @@ export class LiquidityComponent {
         result => {
           let data: any = result;
           this.signAndSendExtrinsics(data);
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
         }
       );
     } else {
@@ -218,7 +241,7 @@ export class LiquidityComponent {
     this.dexService.signExtrinsics(data).then(
       (signedExtrinsics: any) => {
         this.showProcessModal = true;
-    
+
         this.dexService.executeExtrinsics(signedExtrinsics).subscribe(
           results => {
             this.executionExtrinsicsStatus = {
@@ -230,6 +253,10 @@ export class LiquidityComponent {
             this.showExistingLiquidityPoolsModal = false;
 
             this.getAccountLiquidityPools();
+          },
+          error => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+            this.showProcessModal = false;
           }
         );
       }

@@ -5,6 +5,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { Observable, Subject } from 'rxjs';
 import { AssetModel } from '../../models/assets.model';
 import { AssetMetadataModel } from '../../models/assets.model';
+import { web3FromAddress } from '@polkadot/extension-dapp';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class AssetsService {
     })
   };
 
-  public getAssets(): Observable<AssetModel[]> {
+  public getAssets(): Observable<AssetModel[] | string> {
     return new Observable<AssetModel[]>((observer) => {
       let assets: AssetModel[] = [];
 
@@ -69,14 +70,19 @@ export class AssetsService {
           observer.complete();
         },
         error => {
-          observer.next([]);
+          if (error.status == 0) {
+            observer.error(error.message);
+          } else {
+            observer.error(error['error'].message);
+          }
+
           observer.complete();
         }
       )
     });
   }
 
-  public getAssetBalanceByAccount(assetId: number, keypair: string): Observable<number> {
+  public getAssetBalanceByAccount(assetId: number, keypair: string): Observable<number | string> {
     return new Observable<number>((observer) => {
       this.httpClient.get(this.defaultApiEndpoint + '/api/assets/get/asset-balance-by-account/' + assetId + '/' + keypair, this.options).subscribe(
         response => {
@@ -86,10 +92,83 @@ export class AssetsService {
           observer.complete();
         },
         error => {
-          observer.next(0);
+          if (error.status == 0) {
+            observer.error(error.message);
+          } else {
+            observer.error(error['error'].message);
+          }
+
           observer.complete();
         }
       )
+    });
+  }
+
+  public transferExtrinsic(id: number, target: string, amount: number): Observable<any> {
+    return new Observable<any>((observer) => {
+      let data = {
+        id: id,
+        target: target,
+        amount: amount
+      }
+
+      this.httpClient.post(this.defaultApiEndpoint + "/api/assets/extrinsic/transfer", JSON.stringify(data), this.options).subscribe(
+        response => {
+          let results: any = response;
+
+          observer.next(results);
+          observer.complete();
+        },
+        error => {
+          if (error.status == 0) {
+            observer.error(error.message);
+          } else {
+            observer.error(error['error'].message);
+          }
+
+          observer.complete();
+        }
+      );
+    });
+  }
+
+  public async signExtrinsics(extrinsics: string): Promise<any> {
+    const api = await this.api;
+
+    const injector = await web3FromAddress(this.keypair);
+    api.setSigner(injector.signer);
+
+    const unsignedExtrinsics = api.tx(extrinsics);
+    let signedExtrinsics = (await unsignedExtrinsics.signAsync(this.keypair)).toHex();
+
+    if (signedExtrinsics) {
+      return signedExtrinsics;
+    }
+  }
+
+  public executeExtrinsics(signedExtrinsics: string): Observable<any> {
+    return new Observable<any>((observer) => {
+      let data = {
+        signedExtrincs: signedExtrinsics
+      }
+
+      this.httpClient.post(this.defaultApiEndpoint + "/api/assets/extrinsics/execute", JSON.stringify(data), this.options).subscribe(
+        response => {
+          let results: any = response;
+
+          observer.next(results);
+          observer.complete();
+        },
+        error => {
+          if (error.status == 0) {
+            observer.error(error.message);
+          } else {
+            observer.error(error['error'].message);
+          }
+
+          observer.complete();
+        }
+      );
     });
   }
 }

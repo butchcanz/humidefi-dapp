@@ -1,14 +1,18 @@
-@import "primeng/resources/themes/lara-dark-pink/theme.css";
+// @import "primeng/resources/themes/lara-dark-pink/theme.css";
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 @import 'primeflex/primeflex.scss';
 
-html, body {
+html,
+body {
     margin: 0px;
 }
 
 .p-menubar {
-    padding-bottom: 0.5rem;
+    position: 'fixed';
+    width: '100%';
+    z-index: 1;
+    height: 85px;
     border-radius: 0;
 }
 
@@ -22,7 +26,7 @@ html, body {
     margin-bottom: 10px;
 }
 
-// .p-panel-header {
+// .p-button {
 //     background: rgb(239,59,114);
 //     background: linear-gradient(90deg, rgba(239,59,114,1) 0%, rgba(150,59,150,1) 53%, rgba(239,73,67,1) 100%);
 //     border-color: linear-gradient(90deg, rgba(239,59,114,1) 0%, rgba(150,59,150,1) 53%, rgba(239,73,67,1) 100%);

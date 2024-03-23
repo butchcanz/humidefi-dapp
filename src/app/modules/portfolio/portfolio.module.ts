@@ -8,6 +8,10 @@ import { PanelModule } from 'primeng/panel';
 import { ChipModule } from 'primeng/chip';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 import { SafePipe } from './../../pipes/safe.pipe';
 import { WalletModule } from '../wallet/wallet.module';
@@ -31,7 +35,11 @@ import { PortfolioComponent } from './portfolio.component';
     PanelModule,
     ChipModule,
     TableModule,
-    DialogModule
+    DialogModule,
+    ProgressSpinnerModule,
+    ProgressBarModule,
+    ConfirmDialogModule,
+    ToastModule
   ],
   providers: [
     DecimalPipe

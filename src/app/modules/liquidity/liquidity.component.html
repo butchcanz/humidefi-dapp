@@ -23,7 +23,6 @@
         </div>
     </p-toolbar>
 </div>
-
 <div *ngIf="accountLiquidityPools.length > 0">
     <div *ngFor="let accountLiquidityPool of accountLiquidityPools" class="w-full mb-3">
         <p-panel
@@ -101,7 +100,7 @@
     </div>
 </div>
 
-<p-dialog header="Provide Liquidity" [(visible)]="showLiquidityFormModal" [modal]="true" [style]="{ width: '40vw' }"
+<p-dialog header="Provide Liquidity" [(visible)]="showLiquidityFormModal" [modal]="true" [style]="{ width: '45vw' }"
     [draggable]="false" [resizable]="false">
     <div class="w-full mb-3">
         <p-panel header="Asset X">
@@ -139,7 +138,7 @@
             <ng-template pTemplate="footer">
                 <b>Balance:</b>
                 {{decimalPipe.transform(assetXBalances != undefined ? assetXBalances.balance : 0, "1.5-5") || "0"}}
-                {{assetXBalances != undefined ? assetXBalances.asset.metadata.symbol : ''}}
+                <b>{{assetXBalances != undefined ? assetXBalances.asset.metadata.symbol : ''}}</b>
             </ng-template>
         </p-panel>
     </div>
@@ -179,7 +178,7 @@
             <ng-template pTemplate="footer">
                 <b>Balance:</b>
                 {{decimalPipe.transform(assetYBalances != undefined ? assetYBalances.balance : 0, "1.5-5") || "0"}}
-                {{assetYBalances != undefined ? assetYBalances.asset.metadata.symbol : ''}}
+                <b>{{assetYBalances != undefined ? assetYBalances.asset.metadata.symbol : ''}}</b>
             </ng-template>
         </p-panel>
     </div>
@@ -253,3 +252,5 @@
         </div>
     </div>
 </p-dialog>
+
+<p-toast></p-toast>

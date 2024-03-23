@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { AssetModel, SelectedAssetModel } from '../../models/assets.model';
 import { AssetsService } from '../../services/assets/assets.service';
 import { DecimalPipe } from '@angular/common';
@@ -9,7 +10,8 @@ import { ExecuteExtrinsicsStatusModel } from '../../models/execution-extrinsics-
 @Component({
   selector: 'app-swap',
   templateUrl: './swap.component.html',
-  styleUrl: './swap.component.scss'
+  styleUrl: './swap.component.scss',
+  providers: [MessageService]
 })
 export class SwapComponent {
   breadcrumbHome: MenuItem | undefined;
@@ -17,6 +19,7 @@ export class SwapComponent {
 
   constructor(
     public decimalPipe: DecimalPipe,
+    private messageService: MessageService,
     private assetsService: AssetsService,
     private dexService: DexService
   ) { }
@@ -62,6 +65,9 @@ export class SwapComponent {
             this.selectedAssetY?.metadata.asset_id,
           );
         }
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
       }
     )
   }
@@ -77,24 +83,30 @@ export class SwapComponent {
 
   public getAssetsXYBalancesByAccount(asset_x: number, asset_y: number): void {
     this.assetsService.getAssetBalanceByAccount(asset_x, this.keypair).subscribe(
-      balance => {
+      result => {
+        let data: any = result;
         this.assetXBalances = {
           asset: this.getAssetDetail(asset_x),
-          balance: balance
+          balance: data
         }
-        // this.liquidityData.assetX = this.assetXBalances.asset;
         this.selectedAssetX = this.assetXBalances.asset;
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
       }
     );
 
     this.assetsService.getAssetBalanceByAccount(asset_y, this.keypair).subscribe(
-      balance => {
+      result => {
+        let data: any = result;
         this.assetYBalances = {
           asset: this.getAssetDetail(asset_y),
-          balance: balance
+          balance: data
         }
-        // this.liquidityData.assetY = this.assetYBalances.asset;
         this.selectedAssetY = this.assetYBalances.asset;
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
       }
     );
   }
@@ -110,6 +122,9 @@ export class SwapComponent {
               message: results.message,
               isError: results.isError
             }
+          },
+          error => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
           }
         );
       }

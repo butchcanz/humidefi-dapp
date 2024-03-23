@@ -11,7 +11,7 @@
                 <table class="w-full">
                     <tr>
                         <td style="width: 90px;">
-                            <img src="../../../assets/portfolio/wallet.png" class="w-full" height="90" />
+                            <img src="./../../../assets/img/portfolio/wallet.png" class="w-full" height="90" />
                         </td>
                         <td class="pl-3">
                             <div class="mt-1">
@@ -36,7 +36,7 @@
                     <tr>
                         <td style="width: 90px;">
                             <iframe width="90" height="90" [frameBorder]="0" [scrolling]="'no'" [src]="iframeSrc | safe"
-                                allowfullscreen [style]="{'padding':'0'}"></iframe>
+                                allowfullscreen [style]="{'padding':'0', 'border-radius':'50px'}"></iframe>
                         </td>
                         <td class="pl-3">
                             <div class="mb-1">
@@ -104,3 +104,5 @@
     [draggable]="false" [resizable]="false">
     <app-accounts></app-accounts>
 </p-dialog>
+
+<p-toast></p-toast>

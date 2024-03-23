@@ -29,7 +29,7 @@ export class DexService {
     }),
   };
 
-  public getLiquidityPools(): Observable<LiquidityPoolModel[]> {
+  public getLiquidityPools(): Observable<LiquidityPoolModel[] | string> {
     return new Observable<LiquidityPoolModel[]>((observer) => {
       let liquidityPools: LiquidityPoolModel[] = [];
 
@@ -57,14 +57,19 @@ export class DexService {
           observer.complete();
         },
         error => {
-          observer.next([]);
+          if (error.status == 0) {
+            observer.error(error.message);
+          } else {
+            observer.error(error['error'].message);
+          }
+
           observer.complete();
         }
       )
     });
   }
 
-  public getLiquidityPool(assetX: number, assetY: number): Observable<LiquidityPoolModel | undefined> {
+  public getLiquidityPool(assetX: number, assetY: number): Observable<LiquidityPoolModel | string> {
     return new Observable<LiquidityPoolModel>((observer) => {
       let liquidityPool: LiquidityPoolModel = new LiquidityPoolModel();
 
@@ -88,14 +93,19 @@ export class DexService {
           observer.complete();
         },
         error => {
-          observer.next(undefined);
+          if (error.status == 0) {
+            observer.error(error.message);
+          } else {
+            observer.error(error['error'].message);
+          }
+
           observer.complete();
         }
       )
     });
   }
 
-  public getAccountLiquidityPools(): Observable<AccountLiquidityPoolModel[] | []> {
+  public getAccountLiquidityPools(): Observable<AccountLiquidityPoolModel[] | string> {
     return new Observable<AccountLiquidityPoolModel[]>((observer) => {
       let accountLiquidityPools: AccountLiquidityPoolModel[] = [];
 
@@ -122,7 +132,12 @@ export class DexService {
           observer.complete();
         },
         error => {
-          observer.next([]);
+          if (error.status == 0) {
+            observer.error(error.message);
+          } else {
+            observer.error(error['error'].message);
+          }
+
           observer.complete();
         }
       )
@@ -146,7 +161,12 @@ export class DexService {
           observer.complete();
         },
         error => {
-          observer.next("");
+          if (error.status == 0) {
+            observer.error(error.message);
+          } else {
+            observer.error(error['error'].message);
+          }
+
           observer.complete();
         }
       );
@@ -170,7 +190,12 @@ export class DexService {
           observer.complete();
         },
         error => {
-          observer.next("");
+          if (error.status == 0) {
+            observer.error(error.message);
+          } else {
+            observer.error(error['error'].message);
+          }
+
           observer.complete();
         }
       );
@@ -193,7 +218,12 @@ export class DexService {
           observer.complete();
         },
         error => {
-          observer.next("");
+          if (error.status == 0) {
+            observer.error(error.message);
+          } else {
+            observer.error(error['error'].message);
+          }
+
           observer.complete();
         }
       );
@@ -216,7 +246,12 @@ export class DexService {
           observer.complete();
         },
         error => {
-          observer.next("");
+          if (error.status == 0) {
+            observer.error(error.message);
+          } else {
+            observer.error(error['error'].message);
+          }
+
           observer.complete();
         }
       );
@@ -239,7 +274,12 @@ export class DexService {
           observer.complete();
         },
         error => {
-          observer.next("");
+          if (error.status == 0) {
+            observer.error(error.message);
+          } else {
+            observer.error(error['error'].message);
+          }
+
           observer.complete();
         }
       );
@@ -274,7 +314,12 @@ export class DexService {
           observer.complete();
         },
         error => {
-          observer.next("");
+          if (error.status == 0) {
+            observer.error(error.message);
+          } else {
+            observer.error(error['error'].message);
+          }
+
           observer.complete();
         }
       );

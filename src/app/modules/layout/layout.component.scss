@@ -7,9 +7,11 @@
 .main-content {
     display: flex;
     flex: 1;
+    height: 50vh;
 }
 
 .outlet-container {
     padding: 25px;
     width: 100%;
+    overflow-y: scroll;
 }

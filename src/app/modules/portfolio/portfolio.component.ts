@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { UserAssetModel } from '../../models/user-asset.model';
 import { AssetsService } from '../../services/assets/assets.service';
 import { DecimalPipe } from '@angular/common';
@@ -8,7 +9,8 @@ import { AssetModel } from '../../models/assets.model';
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
-  styleUrl: './portfolio.component.scss'
+  styleUrl: './portfolio.component.scss',
+  providers: [MessageService]
 })
 export class PortfolioComponent {
   breadcrumbHome: MenuItem | undefined;
@@ -16,6 +18,7 @@ export class PortfolioComponent {
 
   constructor(
     public decimalPipe: DecimalPipe,
+    private messageService: MessageService,
     private assetsService: AssetsService
   ) { }
 
@@ -37,19 +40,26 @@ export class PortfolioComponent {
             await this.getAssetBalanceByAcccount(data[i]);
           }
         }
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
       }
     )
   }
 
   public async getAssetBalanceByAcccount(asset: AssetModel): Promise<void> {
     this.assetsService.getAssetBalanceByAccount(asset.metadata.asset_id, this.keypair).subscribe(
-      balance => {
+      result => {
+        let data: any = result;
         this.userAssets.push({
           asset_id: asset.metadata.asset_id,
           asset_symbol: asset.metadata.symbol,
           asset_name: asset.metadata.name,
-          asset_balance: balance
+          asset_balance: data
         });
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
       }
     );
   }

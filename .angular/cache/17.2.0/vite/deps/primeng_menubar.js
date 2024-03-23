@@ -5,24 +5,24 @@ import {
   AngleDownIcon
 } from "./chunk-34Q4ZCRJ.js";
 import {
+  Tooltip,
+  TooltipModule
+} from "./chunk-IBZAP5DU.js";
+import {
   RouterLink,
   RouterLinkActive,
   RouterModule
 } from "./chunk-QAGIWMVC.js";
 import {
+  BaseIcon
+} from "./chunk-EL2IZZMK.js";
+import {
   Ripple,
   RippleModule
 } from "./chunk-2Y5ES4M2.js";
 import {
-  Tooltip,
-  TooltipModule
-} from "./chunk-IBZAP5DU.js";
-import {
   DomHandler
 } from "./chunk-EK2YCWCT.js";
-import {
-  BaseIcon
-} from "./chunk-EL2IZZMK.js";
 import {
   ObjectUtils,
   PrimeNGConfig,

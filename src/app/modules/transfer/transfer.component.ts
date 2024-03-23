@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { AssetModel, SelectedAssetModel } from '../../models/assets.model';
 import { AssetsService } from '../../services/assets/assets.service';
 import { DecimalPipe } from '@angular/common';
@@ -9,7 +10,8 @@ import { ExecuteExtrinsicsStatusModel } from '../../models/execution-extrinsics-
 @Component({
   selector: 'app-transfer',
   templateUrl: './transfer.component.html',
-  styleUrl: './transfer.component.scss'
+  styleUrl: './transfer.component.scss',
+  providers: [MessageService]
 })
 export class TransferComponent {
   breadcrumbHome: MenuItem | undefined;
@@ -17,8 +19,8 @@ export class TransferComponent {
 
   constructor(
     public decimalPipe: DecimalPipe,
-    private assetsService: AssetsService,
-    private dexService: DexService
+    private messageService: MessageService,
+    private assetsService: AssetsService
   ) { }
 
   keypair = localStorage.getItem("wallet-keypair") || "";
@@ -33,6 +35,8 @@ export class TransferComponent {
   isProcessing: boolean = false;
 
   executionExtrinsicsStatus: ExecuteExtrinsicsStatusModel | undefined;
+  transferAmount: number = 0;
+  destinationAddress: string = "";
 
   public selectAssetOnChange(event: any): void {
     if (this.selectedAsset != undefined) {
@@ -57,6 +61,9 @@ export class TransferComponent {
             this.selectedAsset?.metadata.asset_id,
           );
         }
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
       }
     )
   }
@@ -72,28 +79,53 @@ export class TransferComponent {
 
   public getAssetSourceBalanceByAccount(asset_source: number): void {
     this.assetsService.getAssetBalanceByAccount(asset_source, this.keypair).subscribe(
-      balance => {
+      result => {
+        let data: any = result;
         this.assetSourceBalance = {
           asset: this.getAssetDetail(asset_source),
-          balance: balance
+          balance: data
         }
-        // this.liquidityData.assetX = this.assetSourceBalance.asset;
         this.selectedAsset = this.assetSourceBalance.asset;
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
       }
     );
   }
 
+  public transferExtrinsics(): void {
+    if (this.selectedAsset != undefined) {
+      this.assetsService.transferExtrinsic(
+        this.selectedAsset.metadata.asset_id,
+        this.destinationAddress,
+        this.transferAmount
+      ).subscribe(
+        result => {
+          let data: any = result;
+          this.signAndSendExtrinsics(data);
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+        }
+      );
+    }
+  }
+
   public signAndSendExtrinsics(data: any): void {
-    this.dexService.signExtrinsics(data).then(
+    this.assetsService.signExtrinsics(data).then(
       (signedExtrinsics: any) => {
         this.showProcessModal = true;
 
-        this.dexService.executeExtrinsics(signedExtrinsics).subscribe(
+        this.assetsService.executeExtrinsics(signedExtrinsics).subscribe(
           results => {
             this.executionExtrinsicsStatus = {
               message: results.message,
               isError: results.isError
             }
+          },
+          error => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+            this.showProcessModal = false;
           }
         );
       }

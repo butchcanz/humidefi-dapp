@@ -101,13 +101,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w-full mt-3">
-                        <p-accordion>
-                            <p-accordionTab header="Calculations">
-
-                            </p-accordionTab>
-                        </p-accordion>
-                    </div>
                     <ng-template pTemplate="footer">
                         <b>Balance:</b>
                         {{decimalPipe.transform(assetYBalances != undefined ? assetYBalances.balance : 0, "1.5-5") ||
@@ -120,6 +113,40 @@
                 <p-button label="Swap" [styleClass]="'w-full'" [rounded]="true" [size]="'large'"></p-button>
             </div>
         </div>
-        <div class="col-12 md:col-6 lg:col-5"></div>
+        <div class="col-12 md:col-6 lg:col-5">
+            <div class="w-full mb-3">
+                <p-accordion>
+                    <p-panel header="Calculations">
+
+                    </p-panel>
+                </p-accordion>
+            </div>
+        </div>
     </div>
 </div>
+
+<p-dialog [(visible)]="showProcessModal" [style]="{width: '60vw'}" [modal]="true" [closable]="false">
+    <div class="w-full text-center">
+        <div class="w-full" *ngIf="executionExtrinsicsStatus == undefined">
+            <p-progressSpinner></p-progressSpinner>
+            <div class="w-full mt-3" style="white-space: pre-wrap;">
+                Processing
+            </div>
+        </div>
+        <div *ngIf="executionExtrinsicsStatus != undefined">
+            <div class="w-full mb-2" *ngIf="executionExtrinsicsStatus.isError == false">
+                <i class="pi pi-check" style="font-size: 5rem; font-weight: bold; color: rgb(119, 255, 119);"></i>
+            </div>
+            <div class="w-full mb-2" *ngIf="executionExtrinsicsStatus.isError == true">
+                <i class="pi pi-times" style="font-size: 5rem; font-weight: bold; color: rgb(202, 74, 74);"></i>
+            </div>
+            <div class="w-full mb-3" style="white-space: pre-wrap;">
+                {{executionExtrinsicsStatus.message}}
+            </div>
+            <button pButton type="button" label="Okay" class="p-button"
+                (click)="showProcessModal = false; executionExtrinsicsStatus = undefined;"></button>
+        </div>
+    </div>
+</p-dialog>
+
+<p-toast></p-toast>

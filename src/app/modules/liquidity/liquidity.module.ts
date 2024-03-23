@@ -19,6 +19,9 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 import { LiquidityRoutingModule } from './liquidity-routing.module';
 import { LiquidityComponent } from './liquidity.component';
@@ -47,7 +50,10 @@ import { LiquidityComponent } from './liquidity.component';
     ButtonModule,
     TableModule,
     DialogModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    ProgressBarModule,
+    ConfirmDialogModule,
+    ToastModule
   ],
   providers: [
     DecimalPipe
