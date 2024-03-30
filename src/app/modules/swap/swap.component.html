@@ -10,7 +10,7 @@
             <div class="w-full mb-3">
                 <p-panel header="You Pay">
                     <div class="grid">
-                        <div class="col-12 md:col-8 lg:col-7">
+                        <!-- <div class="col-12 md:col-8 lg:col-7">
                             <p-inputNumber [styleClass]="'w-full swap-form-input-field'" class="w-full"
                                 [minFractionDigits]="0" [maxFractionDigits]="18" [placeholder]="'0.00'"></p-inputNumber>
                             <div class="w-full mt-3">
@@ -27,7 +27,7 @@
                                     25%
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-12 md:col-4 lg:col-5">
                             <div class="w-full">
                                 <p-dropdown [options]="assets" [(ngModel)]="selectedAssetX" [filter]="true"
@@ -69,6 +69,13 @@
                     </div>
                 </button>
             </div>
+                <div class="w-full mb-3">
+                    <p-accordion>
+                        <p-panel header="Calculations">
+    
+                        </p-panel>
+                    </p-accordion>
+                </div>
             <div class="w-full mb-3">
                 <p-panel header="You Receive">
                     <div class="grid">
@@ -110,18 +117,10 @@
                 </p-panel>
             </div>
             <div class="w-full mb-3">
-                <p-button label="Swap" [styleClass]="'w-full'" [rounded]="true" [size]="'large'"></p-button>
+                <p-button label="Submit" [styleClass]="'w-full'" [rounded]="true" [size]="'large'"></p-button>
             </div>
         </div>
-        <div class="col-12 md:col-6 lg:col-5">
-            <div class="w-full mb-3">
-                <p-accordion>
-                    <p-panel header="Calculations">
-
-                    </p-panel>
-                </p-accordion>
-            </div>
-        </div>
+        
     </div>
 </div>
 

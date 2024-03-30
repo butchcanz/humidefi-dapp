@@ -15,12 +15,16 @@ import { AssetModel } from '../../models/assets.model';
 export class DashboardComponent {
   breadcrumbHome: MenuItem | undefined;
   breadcrumbItems: MenuItem[] | undefined;
+  currency: any[] | undefined;
+
 
   constructor(
     public decimalPipe: DecimalPipe,
     private messageService: MessageService,
     private assetsService: AssetsService
   ) { }
+
+  selectedCurrency: string | undefined;
 
   walletName = localStorage.getItem("wallet-meta-name") || "";
   address = localStorage.getItem("wallet-address") || "";
@@ -47,6 +51,10 @@ export class DashboardComponent {
     )
   }
 
+  public selectCurrencyOnChange(event: any): void {
+
+  }
+
   public async getAssetBalanceByAcccount(asset: AssetModel): Promise<void> {
     this.assetsService.getAssetBalanceByAccount(asset.metadata.asset_id, this.keypair).subscribe(
       result => {
@@ -55,7 +63,11 @@ export class DashboardComponent {
           asset_id: asset.metadata.asset_id,
           asset_symbol: asset.metadata.symbol,
           asset_name: asset.metadata.name,
-          asset_balance: data
+          asset_balance: data,
+          asset_quantity: data,
+          asset_amount: data,
+          asset_value: data
+
         });
       },
       error => {
@@ -74,6 +86,10 @@ export class DashboardComponent {
       { label: 'Dashboard' }
     ];
 
+    this.currency = [
+       { name: 'Dollar', code: 'USD'}, 
+       {name: 'Phillipines', code: 'PHP'}
+      ]
     let url = location.origin + "/polkadot-identicon";
     this.iframeSrc = url;
 

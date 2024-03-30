@@ -5,6 +5,12 @@ import {
 import {
   ChevronRightIcon
 } from "./chunk-PY2HOPAH.js";
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterModule
+} from "./chunk-QAGIWMVC.js";
 import "./chunk-EK2YCWCT.js";
 import {
   BaseIcon
@@ -14,12 +20,6 @@ import {
   SharedModule,
   UniqueComponentId
 } from "./chunk-JUETL6ZC.js";
-import {
-  Router,
-  RouterLink,
-  RouterLinkActive,
-  RouterModule
-} from "./chunk-QAGIWMVC.js";
 import "./chunk-5KHAIC5S.js";
 import "./chunk-NIFQRFRS.js";
 import {
