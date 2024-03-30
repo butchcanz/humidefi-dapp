@@ -3,11 +3,6 @@ import {
   TooltipModule
 } from "./chunk-IBZAP5DU.js";
 import {
-  RouterLink,
-  RouterLinkActive,
-  RouterModule
-} from "./chunk-QAGIWMVC.js";
-import {
   Ripple,
   RippleModule
 } from "./chunk-2Y5ES4M2.js";
@@ -28,6 +23,11 @@ import {
   transition,
   trigger
 } from "./chunk-YGVZUFEH.js";
+import {
+  RouterLink,
+  RouterLinkActive,
+  RouterModule
+} from "./chunk-QAGIWMVC.js";
 import {
   DomSanitizer
 } from "./chunk-5KHAIC5S.js";

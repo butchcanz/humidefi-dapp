@@ -14,22 +14,20 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 
 import { SafePipe } from './../../pipes/safe.pipe';
-import { WalletModule } from '../wallet/wallet.module';
 
-import { PortfolioRoutingModule } from './portfolio-routing.module';
-import { PortfolioComponent } from './portfolio.component';
+import { DashboardRoutingModule } from './dashboard-routing.module';
+import { DashboardComponent } from './dashboard.component';
 
 @NgModule({
   declarations: [
-    PortfolioComponent,
+    DashboardComponent,
     SafePipe
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    WalletModule,
-    PortfolioRoutingModule,
+    DashboardRoutingModule,
     BreadcrumbModule,
     CardModule,
     PanelModule,
@@ -45,4 +43,4 @@ import { PortfolioComponent } from './portfolio.component';
     DecimalPipe
   ]
 })
-export class PortfolioModule { }
+export class DashboardModule { }

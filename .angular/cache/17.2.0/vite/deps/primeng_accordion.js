@@ -4,10 +4,10 @@ import {
 import {
   ChevronRightIcon
 } from "./chunk-PY2HOPAH.js";
-import "./chunk-EL2IZZMK.js";
 import {
   DomHandler
 } from "./chunk-EK2YCWCT.js";
+import "./chunk-EL2IZZMK.js";
 import {
   Header,
   PrimeTemplate,

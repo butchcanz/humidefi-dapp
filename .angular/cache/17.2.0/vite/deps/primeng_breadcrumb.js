@@ -3,23 +3,23 @@ import {
   TooltipModule
 } from "./chunk-IBZAP5DU.js";
 import {
-  Router,
-  RouterLink,
-  RouterLinkActive,
-  RouterModule
-} from "./chunk-QAGIWMVC.js";
-import {
   ChevronRightIcon
 } from "./chunk-PY2HOPAH.js";
+import "./chunk-EK2YCWCT.js";
 import {
   BaseIcon
 } from "./chunk-EL2IZZMK.js";
-import "./chunk-EK2YCWCT.js";
 import {
   PrimeTemplate,
   SharedModule,
   UniqueComponentId
 } from "./chunk-JUETL6ZC.js";
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterModule
+} from "./chunk-QAGIWMVC.js";
 import "./chunk-5KHAIC5S.js";
 import "./chunk-NIFQRFRS.js";
 import {

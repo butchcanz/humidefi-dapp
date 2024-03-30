@@ -4,9 +4,37 @@
     color: white;
     transition: margin-left 0.3s;
     overflow-x: hidden;
-    padding: 25px 0px 25px 25px;
+    background: #F43C70;
+    flex: 1;
 }
 
 .collapsed {
     margin-left: -300px;
+}
+
+:host ::ng-deep .sidebar-menus {
+    padding-top: 5px;
+    margin-top: 10px;
+    width: 100%;
+    background: #F43C70;
+    border-radius: 0%;
+    border: none;
+}
+
+:host ::ng-deep .sidebar-menus a {
+    background: #F43C70;
+    padding: 20px 0px 20px 42px;
+}
+
+:host ::ng-deep .sidebar-menus a:active, 
+:host ::ng-deep .sidebar-menus a:focus {
+    background: #e33768;
+}
+
+:host ::ng-deep .sidebar-menus a span {
+    color: white !important;
+}
+
+:host ::ng-deep .sidebar-menus a:hover {
+    background: #e33768;
 }

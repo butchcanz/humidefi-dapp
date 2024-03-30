@@ -9,20 +9,15 @@ import {
   TooltipModule
 } from "./chunk-IBZAP5DU.js";
 import {
-  RouterLink,
-  RouterLinkActive,
-  RouterModule
-} from "./chunk-QAGIWMVC.js";
-import {
-  BaseIcon
-} from "./chunk-EL2IZZMK.js";
-import {
   Ripple,
   RippleModule
 } from "./chunk-2Y5ES4M2.js";
 import {
   DomHandler
 } from "./chunk-EK2YCWCT.js";
+import {
+  BaseIcon
+} from "./chunk-EL2IZZMK.js";
 import {
   ObjectUtils,
   PrimeNGConfig,
@@ -31,6 +26,11 @@ import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-JUETL6ZC.js";
+import {
+  RouterLink,
+  RouterLinkActive,
+  RouterModule
+} from "./chunk-QAGIWMVC.js";
 import "./chunk-5KHAIC5S.js";
 import "./chunk-NIFQRFRS.js";
 import {

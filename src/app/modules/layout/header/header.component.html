@@ -1,25 +1,27 @@
-<p-menubar [model]="headerMenuItems" [styleClass]="isDarkTheme == false ? 'p-menubar-header' : ''">
+<p-menubar [model]="headerMenuItems" [styleClass]="isDarkTheme == false ? 'p-menubar-header' : 'p-menubar-header-dark'">
     <ng-template pTemplate="start">
-        <button class="p-button p-button-sm p-button-text p-button-rounded p-button-secondary mb-1  p-buttons-header"
+        <button class="p-button p-button-sm p-button-text p-button-rounded p-button-secondary mb-1 p-buttons-header"
             (click)="toggleSidebarOnclick()">
             <i class="pi pi-bars"></i>
         </button>
         &nbsp;
-        <img src="./../../../../assets/img/humidefi_icon_dark_mode.png" height="30" class="mb-1" />
+        <img src="./../../../../assets/img/humidefi_icon_dark_mode.png" height="30" class="mb-1" *ngIf="isDarkTheme" />
+        <img src="./../../../../assets/img/humedifi_logo_light_mode.png" height="30" class="mb-1"
+            *ngIf="!isDarkTheme" />
     </ng-template>
     <ng-template pTemplate="end">
-        <p-menu #networkMenu [model]="networkMenuItems" [popup]="true"></p-menu>
+        <!-- <p-menu #networkMenu [model]="networkMenuItems" [popup]="true"></p-menu> -->
         <p-menu #themesMenu [model]="themeMenuItems" [popup]="true"></p-menu>
 
-        <p-button [styleClass]="isDarkTheme == false ? 'mb-1 p-buttons-header' : 'mb-1'" icon="pi pi-globe"
-            [rounded]="true" [text]="true" (click)="networkMenu.toggle($event)"></p-button>
-        <p-button [styleClass]="isDarkTheme == false ? 'mb-1 p-buttons-header' : 'mb-1'" icon="pi pi-palette"
-            [rounded]="true" [text]="true" (click)="themesMenu.toggle($event)"></p-button>
-        <p-button [styleClass]="isDarkTheme == false ? 'mb-1 mr-1 p-buttons-header' : 'mb-1 mr-1 '"
-            icon=" {{iconDarkOrLightSelection}}" [rounded]="true" [text]="true"
+        <!-- <p-button [styleClass]="'mb-1'" icon="pi pi-globe" [rounded]="true" [text]="true"
+            (click)="networkMenu.toggle($event)"></p-button> -->
+        <p-button [styleClass]="'mb-1'" icon="pi pi-palette" [rounded]="true" [text]="true"
+            (click)="themesMenu.toggle($event)"></p-button>
+        <p-button [styleClass]="'mb-1 mr-1'" icon=" {{iconDarkOrLightSelection}}" [rounded]="true" [text]="true"
             (click)="changeDarkOrLight()"></p-button>
-        <p-button [styleClass]="isDarkTheme == false ? 'mb-1 p-buttons-header p-button-outlined' : 'mb-1'" icon="pi pi-wallet"
-            label="{{walletName}}" [rounded]="true" (click)="openWalletModal()"></p-button>
+        <p-button [styleClass]="'mb-1 p-buttons-header'" [rounded]="true" [outlined]="true" icon="pi pi-wallet"
+            label="{{address.substring(0, 5)}}.....{{address.substring(address.length, address.length - 5)}}"
+            (click)="openWalletModal()"></p-button>
     </ng-template>
 </p-menubar>
 

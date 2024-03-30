@@ -64,50 +64,10 @@ export class HeaderComponent {
           darkThemeFilePath: "./assets/themes/lara-dark-cyan/theme"
         },
       ]
-    },
-    {
-      name: "Bootstrap 4",
-      filePaths: [
-        {
-          category: "Blue",
-          lightThemeFilePath: "./assets/themes/bootstrap4-light-blue/theme",
-          darkThemeFilePath: "./assets/themes/bootstrap4-dark-blue/theme"
-        },
-        {
-          category: "Purple",
-          lightThemeFilePath: "./assets/themes/bootstrap4-light-purple/theme",
-          darkThemeFilePath: "./assets/themes/bootstrap4-dark-purple/theme"
-        },
-      ]
-    },
-    {
-      name: "Material",
-      filePaths: [
-        {
-          category: "Indigo",
-          lightThemeFilePath: "./assets/themes/md-light-indigo/theme",
-          darkThemeFilePath: "./assets/themes/md-dark-indigo/theme"
-        },
-        {
-          category: "Deep Purple",
-          lightThemeFilePath: "./assets/themes/md-light-deeppurple/theme",
-          darkThemeFilePath: "./assets/themes/md-dark-deeppurple/theme"
-        },
-      ]
-    },
-    {
-      name: "Other Themes",
-      filePaths: [
-        {
-          category: "Soho",
-          lightThemeFilePath: "./assets/themes/soho-light/theme",
-          darkThemeFilePath: "./assets/themes/soho-dark/theme"
-        },
-      ]
-    },
+    }
   ];
   selectedPrimeNGThemeCategory: PrimeNGThemeCategory | undefined;
-  isDarkTheme = true;
+  isDarkTheme = false;
   iconDarkOrLightSelection = "pi pi-moon"
 
   public toggleSidebarOnclick(): void {
@@ -182,42 +142,7 @@ export class HeaderComponent {
             command: () => { this.selectTheme("Lara", "Cyan"); }
           },
         ]
-      },
-      {
-        label: 'Bootstrap 4',
-        items: [
-          {
-            label: 'Blue',
-            command: () => { this.selectTheme("Bootstrap 4", "Blue"); }
-          },
-          {
-            label: 'Purple',
-            command: () => { this.selectTheme("Bootstrap 4", "Purple"); }
-          },
-        ]
-      },
-      {
-        label: 'Material',
-        items: [
-          {
-            label: 'Indigo',
-            command: () => { this.selectTheme("Material", "Indigo"); }
-          },
-          {
-            label: 'Deep Purple',
-            command: () => { this.selectTheme("Material", "Deep Purple"); }
-          },
-        ]
-      },
-      {
-        label: 'Other Themes',
-        items: [
-          {
-            label: 'Soho',
-            command: () => { this.selectTheme("Other Themes", "Soho"); }
-          },
-        ]
-      },
+      }
     ]
 
     this.selectTheme("Lara", "Pink");

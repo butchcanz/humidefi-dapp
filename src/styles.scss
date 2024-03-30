@@ -11,7 +11,6 @@ body {
 .p-menubar {
     position: 'fixed';
     width: '100%';
-    z-index: 1;
     height: 85px;
     border-radius: 0;
 }
@@ -25,10 +24,3 @@ body {
     width: 100%;
     margin-bottom: 10px;
 }
-
-// .p-button {
-//     background: rgb(239,59,114);
-//     background: linear-gradient(90deg, rgba(239,59,114,1) 0%, rgba(150,59,150,1) 53%, rgba(239,73,67,1) 100%);
-//     border-color: linear-gradient(90deg, rgba(239,59,114,1) 0%, rgba(150,59,150,1) 53%, rgba(239,73,67,1) 100%);
-//     color: white;
-// }

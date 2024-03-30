@@ -9,7 +9,6 @@ import {
   ButtonModule
 } from "./chunk-FOLH4XV3.js";
 import "./chunk-PNCXQVVN.js";
-import "./chunk-EL2IZZMK.js";
 import {
   Ripple,
   RippleModule
@@ -17,6 +16,7 @@ import {
 import {
   DomHandler
 } from "./chunk-EK2YCWCT.js";
+import "./chunk-EL2IZZMK.js";
 import {
   ConfirmEventType,
   ConfirmationService,

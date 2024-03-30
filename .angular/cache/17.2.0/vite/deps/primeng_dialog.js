@@ -7,15 +7,15 @@ import {
 } from "./chunk-FOLH4XV3.js";
 import "./chunk-PNCXQVVN.js";
 import {
-  BaseIcon
-} from "./chunk-EL2IZZMK.js";
-import {
   Ripple,
   RippleModule
 } from "./chunk-2Y5ES4M2.js";
 import {
   DomHandler
 } from "./chunk-EK2YCWCT.js";
+import {
+  BaseIcon
+} from "./chunk-EL2IZZMK.js";
 import {
   Footer,
   Header,

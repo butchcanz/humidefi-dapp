@@ -2,13 +2,13 @@ import {
   PlusIcon
 } from "./chunk-X2DVZINY.js";
 import {
-  BaseIcon
-} from "./chunk-EL2IZZMK.js";
-import {
   Ripple,
   RippleModule
 } from "./chunk-2Y5ES4M2.js";
 import "./chunk-EK2YCWCT.js";
+import {
+  BaseIcon
+} from "./chunk-EL2IZZMK.js";
 import {
   Footer,
   PrimeTemplate,

@@ -11,15 +11,15 @@ export class SidebarComponent {
   @Input() isCollapsed: boolean = false;
 
   items: MenuItem[] = [
+    // {
+    //   label: 'Portfolio',
+    //   icon: 'pi pi-fw pi-briefcase',
+    //   routerLink: '/app/portfolio'
+    // },
     {
-      label: 'Portfolio',
-      icon: 'pi pi-fw pi-briefcase',
-      routerLink: '/app/portfolio'
-    },
-    {
-      label: 'Staking',
-      icon: 'pi pi-fw pi-bitcoin',
-      routerLink: '/app/staking'
+      label: 'Dashboard',
+      icon: 'pi pi-fw pi-home',
+      routerLink: '/app/dashboard'
     },
     {
       label: 'Liquidity',
@@ -35,11 +35,6 @@ export class SidebarComponent {
       label: 'Transfer',
       icon: 'pi pi-fw pi-reply',
       routerLink: '/app/transfer'
-    },
-    {
-      label: 'Buy/Sell',
-      icon: 'pi pi-fw pi-tags',
-      routerLink: '/app/buy-sell'
     },
   ];
 
